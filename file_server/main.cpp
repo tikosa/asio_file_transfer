@@ -44,6 +44,7 @@ void filename_read_handler(const boost::system::error_code &ec, size_t bytes_rea
       return;
   }
   filename.append(data, bytes_read);
+  std::cout << "filename = " << filename << std::endl;
   tcp_socket.async_read_some(buffer(data), filesize_read_handler);
 }
 
@@ -53,6 +54,7 @@ void filesize_read_handler(const boost::system::error_code &ec, size_t bytes_rea
       return;
   }
   filesize = std::stoi(std::string(data, bytes_read-1));
+  std::cout << "filesize = " << filesize << std::endl;
   fd = open(filename.c_str(), O_CREAT | O_RDWR | O_APPEND, 0666);
   if (fd < 0) {
       close(fd);
